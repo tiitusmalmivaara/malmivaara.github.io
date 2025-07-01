@@ -127,12 +127,12 @@
       } else {
         document.getElementById("feedback").textContent = "Väärin! Aloitat alusta.";
         currentQuestion = 0;
-        shuffle(questions);
+        shuffle(questions.options);
         setTimeout(showQuestion, 2000);
       }
     }
 
-    shuffle(questions);
+    shuffle(questions.options);
     showQuestion();
   </script>
 </body>
