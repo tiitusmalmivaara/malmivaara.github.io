@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <title>Kysymyspeli</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 40px;
+      text-align: center;
+      background-color: #f5f5f5;
+    }
+    .question-box {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: auto;
+    }
+    input {
+      padding: 10px;
+      font-size: 1rem;
+      margin-top: 10px;
+      width: 80%;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    #feedback {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Vastaa kysymyksiin oikein</h1>
+  <div class="question-box">
+    <div id="question">Ladataan kysymystä...</div>
+    <input type="text" id="answerInput" placeholder="Vastauksesi">
+    <br>
+    <button onclick="checkAnswer()">Vastaa</button>
+    <div id="feedback"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "Mikä on Suomen pääkaupunki?",
+        answer: "helsinki"
+      },
+      {
+        question: "Paljonko on 5 × 3?",
+        answer: "15"
+      },
+      {
+        question: "Mikä on veden kemiallinen kaava?",
+        answer: "h2o"
+      }
+    ];
+
+    let currentQuestion = 0;
+
+    function showQuestion() {
+      document.getElementById("question").textContent = questions[currentQuestion].question;
+      document.getElementById("answerInput").value = "";
+      document.getElementById("feedback").textContent = "";
+    }
+
+    function checkAnswer() {
+      const userAnswer = document.getElementById("answerInput").value.toLowerCase().trim();
+      const correctAnswer = questions[currentQuestion].answer;
+
+      if (userAnswer === correctAnswer) {
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+          showQuestion();
+        } else {
+          document.getElementById("question").textContent = "Onneksi olkoon! Vastasit kaikkiin oikein 🎉";
+          document.getElementById("answerInput").style.display = "none";
+          document.querySelector("button").style.display = "none";
+        }
+      } else {
+        document.getElementById("feedback").textContent = "Väärin! Aloitat alusta.";
+        currentQuestion = 0;
+        setTimeout(showQuestion, 2000); // Hetken viive ennen uudelleenaloitusta
+      }
+    }
+
+    // Käynnistä peli
+    showQuestion();
+  </script>
+</body>
+</html>
