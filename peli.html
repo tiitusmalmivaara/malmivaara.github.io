@@ -136,7 +136,7 @@
 
       if (selected === correct) {
         currentQuestion++;
-        document.getElementById("feedback").textContent = questions[currentQuestion].palaute;
+        document.getElementById("palaute").textContent = questions[currentQuestion].palaute;
         if (currentQuestion < questions.length) {
           showQuestion();
         } else {
