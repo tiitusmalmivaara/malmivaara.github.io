@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Monivalintapeli</title>
   <style>
     body {
       font-family: sans-serif;
       padding: 40px;
-      text-align: center;
       background-color: #f5f5f5;
+      text-align: center;
     }
+
     .question-box {
       background: white;
       padding: 20px;
@@ -22,12 +23,14 @@
       flex-direction: column;
       justify-content: space-between;
     }
+
     .options {
       display: flex;
       flex-direction: column;
       gap: 10px;
       margin-top: 20px;
     }
+
     .option-button {
       padding: 10px;
       font-size: 1rem;
@@ -37,9 +40,11 @@
       cursor: pointer;
       transition: background 0.3s;
     }
+
     .option-button:hover {
       background-color: #ccc;
     }
+
     #feedback {
       margin-top: 20px;
       font-weight: bold;
@@ -49,6 +54,7 @@
 </head>
 <body>
   <h1>Valitse oikea vastaus</h1>
+
   <div class="question-box">
     <div id="question">Ladataan kysymystä...</div>
     <div id="options" class="options"></div>
@@ -63,24 +69,37 @@
         answer: "Helsinki"
       },
       {
-        question: "Mikä on veden kemiallinen kaava?",
-        options: ["H2O", "O2", "CO2"],
-        answer: "H2O"
-      },
-      {
         question: "Paljonko on 5 × 3?",
         options: ["8", "15", "10"],
         answer: "15"
+      },
+      {
+        question: "Mikä on veden kemiallinen kaava?",
+        options: ["CO2", "O2", "H2O"],
+        answer: "H2O"
+      },
+      {
+        question: "Mikä maa voitti jalkapallon MM 2022?",
+        options: ["Argentiina", "Ranska", "Brasilia"],
+        answer: "Argentiina"
       }
     ];
 
     let currentQuestion = 0;
 
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
     function showQuestion() {
       const q = questions[currentQuestion];
       document.getElementById("question").textContent = q.question;
+
       const optionsDiv = document.getElementById("options");
-      optionsDiv.innerHTML = ""; // tyhjennä vanhat vaihtoehdot
+      optionsDiv.innerHTML = "";
 
       q.options.forEach(option => {
         const btn = document.createElement("button");
@@ -103,15 +122,19 @@
         } else {
           document.getElementById("question").textContent = "Onneksi olkoon! 🎉 Vastasit kaikkiin oikein.";
           document.getElementById("options").innerHTML = "";
+          document.getElementById("feedback").textContent = "";
         }
       } else {
         document.getElementById("feedback").textContent = "Väärin! Aloitat alusta.";
         currentQuestion = 0;
+        shuffle(questions);
         setTimeout(showQuestion, 2000);
       }
     }
 
+    shuffle(questions);
     showQuestion();
   </script>
 </body>
 </html>
+
