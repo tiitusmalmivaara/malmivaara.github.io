@@ -68,21 +68,26 @@
         question: "Mikä on Suomen pääkaupunki?",
         options: ["Turku", "Helsinki", "Tampere"],
         answer: "Helsinki"
+        feedback: "Helsinki on ollut Suomen pääkaupunki 1812"
       },
       {
         question: "Paljonko on 5 × 3?",
         options: ["8", "15", "10"],
         answer: "15"
+        feedback: "oikein"
       },
       {
         question: "Mikä on veden kemiallinen kaava?",
         options: ["CO2", "O2", "H2O"],
         answer: "H2O"
+        feedback: "Hyvä"
+        
       },
       {
         question: "Mikä maa voitti jalkapallon MM 2022?",
         options: ["Argentiina", "Ranska", "Brasilia"],
         answer: "Argentiina"
+        feedback "hyvä"
       }
     ];
 
@@ -125,12 +130,13 @@
 
       if (selected === correct) {
         currentQuestion++;
+        document.getElementById("feedback").textContent=question[currentQuestion].feedback;
         if (currentQuestion < questions.length) {
           showQuestion();
         } else {
           document.getElementById("question").textContent = "Onneksi olkoon! 🎉 Vastasit kaikkiin oikein.";
           document.getElementById("options").innerHTML = "";
-          document.getElementById("feedback").textContent = "";
+          document.getElementById("feedback").textContent = "";         
         }
       } else {
         document.getElementById("feedback").textContent = "Väärin! Aloitat alusta.";
