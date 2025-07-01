@@ -2,7 +2,7 @@
 <html lang="fi">
 <head>
   <meta charset="UTF-8">
-  <title>Kysymyspeli</title>
+  <title>Monivalintapeli</title>
   <style>
     body {
       font-family: sans-serif;
@@ -17,33 +17,41 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       max-width: 400px;
       margin: auto;
-      min-height: 400px;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-    input {
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .option-button {
       padding: 10px;
       font-size: 1rem;
-      margin-top: 10px;
-      width: 80%;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: #ddd;
       cursor: pointer;
+      transition: background 0.3s;
+    }
+    .option-button:hover {
+      background-color: #ccc;
     }
     #feedback {
       margin-top: 20px;
       font-weight: bold;
+      color: red;
     }
   </style>
 </head>
 <body>
-  <h1>Vastaa seuraaviin raamattuaiheisiin kysymyksiin. Väärästä vastauksesta aloitat alusta!</h1>
+  <h1>Valitse oikea vastaus</h1>
   <div class="question-box">
     <div id="question">Ladataan kysymystä...</div>
-    <input type="text" id="answerInput" placeholder="Vastauksesi">
-    <br>
-    <button onclick="checkAnswer()">Vastaa</button>
+    <div id="options" class="options"></div>
     <div id="feedback"></div>
   </div>
 
@@ -51,47 +59,58 @@
     const questions = [
       {
         question: "Mikä on Suomen pääkaupunki?",
-        answer: "helsinki"
-      },
-      {
-        question: "Paljonko on 5 × 3?",
-        answer: "15"
+        options: ["Turku", "Helsinki", "Tampere"],
+        answer: "Helsinki"
       },
       {
         question: "Mikä on veden kemiallinen kaava?",
-        answer: "h2o"
+        options: ["H2O", "O2", "CO2"],
+        answer: "H2O"
+      },
+      {
+        question: "Paljonko on 5 × 3?",
+        options: ["8", "15", "10"],
+        answer: "15"
       }
     ];
 
     let currentQuestion = 0;
 
     function showQuestion() {
-      document.getElementById("question").textContent = questions[currentQuestion].question;
-      document.getElementById("answerInput").value = "";
+      const q = questions[currentQuestion];
+      document.getElementById("question").textContent = q.question;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = ""; // tyhjennä vanhat vaihtoehdot
+
+      q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.className = "option-button";
+        btn.textContent = option;
+        btn.onclick = () => checkAnswer(option);
+        optionsDiv.appendChild(btn);
+      });
+
       document.getElementById("feedback").textContent = "";
     }
 
-    function checkAnswer() {
-      const userAnswer = document.getElementById("answerInput").value.toLowerCase().trim();
-      const correctAnswer = questions[currentQuestion].answer;
+    function checkAnswer(selected) {
+      const correct = questions[currentQuestion].answer;
 
-      if (userAnswer === correctAnswer) {
+      if (selected === correct) {
         currentQuestion++;
         if (currentQuestion < questions.length) {
           showQuestion();
         } else {
-          document.getElementById("question").textContent = "Onneksi olkoon! Vastasit kaikkiin oikein 🎉";
-          document.getElementById("answerInput").style.display = "none";
-          document.querySelector("button").style.display = "none";
+          document.getElementById("question").textContent = "Onneksi olkoon! 🎉 Vastasit kaikkiin oikein.";
+          document.getElementById("options").innerHTML = "";
         }
       } else {
         document.getElementById("feedback").textContent = "Väärin! Aloitat alusta.";
         currentQuestion = 0;
-        setTimeout(showQuestion, 1000); // Hetken viive ennen uudelleenaloitusta
+        setTimeout(showQuestion, 2000);
       }
     }
 
-    // Käynnistä peli
     showQuestion();
   </script>
 </body>
