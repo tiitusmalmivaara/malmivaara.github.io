@@ -62,6 +62,7 @@
   </div>
 
   <script>
+    // Kysymysdata
     const questions = [
       {
         question: "Mikä on Suomen pääkaupunki?",
@@ -87,6 +88,7 @@
 
     let currentQuestion = 0;
 
+    // Taulukon sekoitusalgoritmi
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -94,6 +96,7 @@
       }
     }
 
+    // Näytä seuraava kysymys
     function showQuestion() {
       const q = questions[currentQuestion];
       document.getElementById("question").textContent = q.question;
@@ -101,7 +104,11 @@
       const optionsDiv = document.getElementById("options");
       optionsDiv.innerHTML = "";
 
-      q.options.forEach(option => {
+      // Luo uusi kopio vaihtoehdoista ja sekoita se
+      const shuffledOptions = [...q.options];
+      shuffle(shuffledOptions);
+
+      shuffledOptions.forEach(option => {
         const btn = document.createElement("button");
         btn.className = "option-button";
         btn.textContent = option;
@@ -112,6 +119,7 @@
       document.getElementById("feedback").textContent = "";
     }
 
+    // Tarkista vastaus
     function checkAnswer(selected) {
       const correct = questions[currentQuestion].answer;
 
@@ -127,14 +135,12 @@
       } else {
         document.getElementById("feedback").textContent = "Väärin! Aloitat alusta.";
         currentQuestion = 0;
-        shuffle(questions.options);
         setTimeout(showQuestion, 2000);
       }
     }
 
-    shuffle(questions.options);
+    // Aloita peli
     showQuestion();
   </script>
 </body>
 </html>
-
