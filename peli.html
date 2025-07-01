@@ -37,7 +37,7 @@
   </style>
 </head>
 <body>
-  <h1>Vastaa kysymyksiin oikein</h1>
+  <h1>Vastaa seuraaviin raamattuaiheisiin kysymyksiin oikein. <br /> Väärästä vastauksesta aloitat alusta</h1>
   <div class="question-box">
     <div id="question">Ladataan kysymystä...</div>
     <input type="text" id="answerInput" placeholder="Vastauksesi">
@@ -86,7 +86,7 @@
       } else {
         document.getElementById("feedback").textContent = "Väärin! Aloitat alusta.";
         currentQuestion = 0;
-        setTimeout(showQuestion, 2000); // Hetken viive ennen uudelleenaloitusta
+        setTimeout(showQuestion, 1000); // Hetken viive ennen uudelleenaloitusta
       }
     }
 
